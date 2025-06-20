@@ -1,4 +1,5 @@
 import Compony from "./company/Compony";
+import CustomarSar from "./customar/CustomarSar";
 import Fasceleties from "./ourservise/Fasceleties";
 import OurServise from "./ourservise/OurServise";
 import Banner from "./servise/Banner";
@@ -13,6 +14,7 @@ function HomeLayout() {
          <OurServise />
          <Compony />
          <Fasceleties />
+         <CustomarSar />
          
       </>
    );
