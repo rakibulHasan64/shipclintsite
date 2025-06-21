@@ -32,10 +32,13 @@ function Navbar() {
                   <Link to="/about" className="hover:text-gray-500/80 transition">About Us</Link>
                </li>
                <li>
-                  <Link to="/pricing" className="hover:text-gray-500/80 transition">Pricing</Link>
+                  <Link to="/Pricing" className="hover:text-gray-500/80 transition">Pricing</Link>
                </li>
                <li>
-                  <Link to="/be-a-rider" className="hover:text-gray-500/80 transition">Be a Rider</Link>
+                  <Link to="/addParcel" className="hover:text-gray-500/80 transition">Add Parcel</Link>
+               </li>
+               <li>
+                  <Link to="/baarider" className="hover:text-gray-500/80 transition">Be a Rider</Link>
                </li>
             </ul>
 

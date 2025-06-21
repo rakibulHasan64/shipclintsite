@@ -12,6 +12,12 @@ import { Toaster } from 'react-hot-toast';
 import ErrorPage from './componet/home/ErrorPage.jsx';
 import CovarageLayout from './componet/layout/covarage/CovarageLayout.jsx';
 import AboutLayout from './componet/about/AboutLayout.jsx';
+import Pricing from './componet/Pricing/Pricing.jsx';
+import Barider from './componet/baarider/Barider.jsx';
+import AddParcel from './componet/layout/addpacel/AddParcel.jsx';
+import ResatPassword from './componet/baarider/ResatPassword.jsx';
+import EnterCode from './componet/entercoddandrestpass/EnterCode.jsx';
+import ResetPass from './componet/entercoddandrestpass/ResetPass.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -30,6 +36,18 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutLayout />
+      },
+      {
+        path: "/Pricing",
+        element: <Pricing />
+      },
+      {
+        path: "/baarider",
+        element: <Barider />
+      },
+      {
+        path: "/addParcel",
+        element: <AddParcel /> 
       }
     ]
   },
@@ -45,7 +63,21 @@ const router = createBrowserRouter([
       {
         path: "/regishter",
         element: <Regshter />
+      },
+
+      {
+        path: "/ForgetPass",
+        element:<ResatPassword />
+      },
+      {
+        path: "/entercode",
+        element: <EnterCode />
+      },
+      {
+        path: "/restPassword",
+        element: <ResetPass />
       }
+      
     ]
   }
 ]);
