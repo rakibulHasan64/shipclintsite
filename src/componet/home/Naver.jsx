@@ -40,10 +40,12 @@ function Navbar() {
             </ul>
 
             <div className="flex items-center gap-4">
-               <button  className="py-2 px-5 border rounded-lg text-[15px] font-bold">
-                  Sign In
-               </button>
+               <Link to={"/sing"}>
+                  <button className="py-2 px-5 border rounded-lg text-[15px] font-bold">
+                     Sign In
+                  </button>
 
+               </Link>
                <button className='py-2 px-5  rounded-lg text-[15px] font-bold bg-[#CAEB66]'>
                   Be a rider
                </button>
