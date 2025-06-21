@@ -11,6 +11,7 @@ import AuthProvider from './componet/provider/AuthProvider.jsx';
 import { Toaster } from 'react-hot-toast';
 import ErrorPage from './componet/home/ErrorPage.jsx';
 import CovarageLayout from './componet/layout/covarage/CovarageLayout.jsx';
+import AboutLayout from './componet/about/AboutLayout.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         path: "/coverage",
         element: <CovarageLayout />,
         loader: ()=> fetch("/warehouses.json")
+      },
+      {
+        path: "/about",
+        element: <AboutLayout />
       }
     ]
   },

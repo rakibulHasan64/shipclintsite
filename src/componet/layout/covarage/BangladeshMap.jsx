@@ -19,7 +19,7 @@ const customIcon = new L.Icon({
 
 function BangladeshMap({ serviesCenter }) {
    return (
-      <div className="h-[500px] rounded-xl overflow-hidden shadow-lg">
+      <div className="mt-10 h-[500px] rounded-xl overflow-hidden shadow-lg">
          <MapContainer
             center={[23.6850, 90.3563]}
             zoom={7}
