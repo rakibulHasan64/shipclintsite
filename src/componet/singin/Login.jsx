@@ -3,10 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../hooks/useAxiosSecure';
 
 function Login() {
    const { googleLogin, signIn } = useAuth();
    const navigate = useNavigate();
+
+   const axiosInstance = useAxiosSecure();
 
    const {
       register,
@@ -27,14 +30,36 @@ function Login() {
    };
 
    // Google Login
+   // const handleGoogleLogin = async () => {
+   //    try {
+   //       const result = await googleLogin();
+   //       toast.success(`Logged in as ${result.user.displayName}`);
+   //       navigate('/');
+   //    } catch (error) {
+   //       toast.error("Google login failed!");
+   //       console.error(error);
+   //    }
+   // };
+
+
    const handleGoogleLogin = async () => {
       try {
-         const result = await googleLogin();
-         toast.success(`Logged in as ${result.user.displayName}`);
-         navigate('/');
+         const result = await googleLogin(); // Firebase Google Login
+         const user = result.user;
+
+         const userInfo = {
+            email: user.email,
+            role: "user",
+            created_at: new Date().toISOString(),
+            last_log_in: new Date().toISOString()
+         };
+         await axiosInstance.post("/users", userInfo);
+         toast.success("Google login successful!");
+         navigate("/");
+
       } catch (error) {
-         toast.error("Google login failed!");
-         console.error(error);
+         console.error("Google login failed:", error.message);
+         toast.error("Google login failed");
       }
    };
 
@@ -105,7 +130,7 @@ function Login() {
                {/* Register Link */}
                <p className="text-sm text-center">
                   Don’t have any account?{' '}
-                  <Link to="/regishter" className="text-blue-600 hover:underline">
+                  <Link to="/auth/register" className="text-blue-600 hover:underline">
                      Register
                   </Link>
                </p>

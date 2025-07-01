@@ -33,6 +33,10 @@ function AuthProvider({ children }) {
       return updateProfile(auth.currentUser, updatedData);
    };
 
+   const updatedUser = profileinfo => {
+      return updateProfile(auth.currentUser,profileinfo)
+   }
+
 
    const logOut = () => {
       setLoading(true);
@@ -62,6 +66,7 @@ function AuthProvider({ children }) {
       updateUser,
       logOut,
       setLoading,
+      updatedUser
    };
 
    return (

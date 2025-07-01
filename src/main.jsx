@@ -18,6 +18,26 @@ import AddParcel from './componet/layout/addpacel/AddParcel.jsx';
 import ResatPassword from './componet/baarider/ResatPassword.jsx';
 import EnterCode from './componet/entercoddandrestpass/EnterCode.jsx';
 import ResetPass from './componet/entercoddandrestpass/ResetPass.jsx';
+import Dabord from './componet/layout/dashbord/Dabord.jsx';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Pamant from './componet/pamant/Pamant.jsx';
+import MyPmantHistory from './componet/layout/dashbord/MyPmantHistory.jsx';
+import Pamants from './componet/layout/dashbord/Pamants.jsx';
+import PendingRiders from './componet/riders/PandingeRiders.jsx';
+import ActiveRider from './componet/riders/ActiveRider.jsx';
+import User from './componet/layout/dashbord/User.jsx';
+import MakeAdmin from './componet/admin/MakeAdmin.jsx';
+import Forbidden from './componet/admin/Forbidden.jsx';
+import AdminRout from './componet/admin/AdminRout.jsx';
+import PrivateRoute from './componet/privetrout/PrivetRout.jsx';
+import AsinRider from './componet/admin/AsinRider.jsx';
+import Profile from './componet/layout/dashbord/Profile/Profile.jsx';
+import RiderRoute from './route/RiderRoute.jsx';
+import PandingDelevery from './componet/layout/dashbord/pandinedeleveiry/PandingDelevery.jsx';
+import CompletedDelivery from './componet/layout/dashbord/completDelevery/CompletedDelivery.jsx';
+
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,6 +53,12 @@ const router = createBrowserRouter([
         element: <CovarageLayout />,
         loader: ()=> fetch("/warehouses.json")
       },
+
+      {
+        path: "/forbidden",
+        element: <Forbidden />
+
+      },
       {
         path: "/about",
         element: <AboutLayout />
@@ -41,54 +67,125 @@ const router = createBrowserRouter([
         path: "/Pricing",
         element: <Pricing />
       },
-      {
-        path: "/baarider",
-        element: <Barider />
-      },
+      
       {
         path: "/addParcel",
-        element: <AddParcel /> 
-      }
+        element: <AddParcel />,
+        loader: () => fetch("/warehouses.json")
+      },
+      {
+        path: "/payment/:id",
+        element: <Pamant />,
+
+      },
+      
     ]
   },
   {
-    path: '/',
+    path: '/auth',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
+      { path: 'login', element: <Login /> },
+      { path: 'register', element: <Regshter /> },
+      { path: 'forget-password', element: <ResatPassword /> },
+      { path: 'enter-code', element: <EnterCode /> },
+      { path: 'reset-password', element: <ResetPass /> },
+    ]
+  },
+
+  {
+    path: "/dashboard",
+    element: <PrivateRoute><Dabord /></PrivateRoute>, 
+    children: [
+    
       {
-        path: '/login',
-        element: <Login />
+        path: "/dashboard/payment",
+        index: true,
+        element: <Pamants />
       },
+    
+    
       {
-        path: "/regishter",
-        element: <Regshter />
+        path: "payment/:id",
+        element: <Pamant />  
       },
 
       {
-        path: "/ForgetPass",
-        element:<ResatPassword />
+        path: "/dashboard/profile",
+        element:<Profile />
+
+      },
+       
+
+
+      {
+        path: "/dashboard/MyPmantHistory", 
+        element: <MyPmantHistory />
+      },
+
+      {
+        path: "/dashboard/assign-rider",
+        element: <AdminRout><AsinRider /></AdminRout>
+
+      },
+  
+      {
+
+        path: "/dashboard/beaRiders",
+        element: <Barider />,
+        loader: () => fetch("/warehouses.json")
+      },
+      // riders routes
+
+      {
+
+        path: "/dashboard/completDeleveiy",
+        element: <RiderRoute><CompletedDelivery /></RiderRoute>
+        
+      },
+
+      {
+        path: "/dashboard/pending-deliveries",
+        element: <RiderRoute> <PandingDelevery /></RiderRoute>,
+
+      },
+
+      // admin routes
+
+      {
+        path: "/dashboard/pandinRiders",
+        element: <AdminRout><PendingRiders /></AdminRout>
       },
       {
-        path: "/entercode",
-        element: <EnterCode />
+        path: "/dashboard/assign-rider",
+        element: <AdminRout><AsinRider /></AdminRout>
       },
+    
       {
-        path: "/restPassword",
-        element: <ResetPass />
-      }
+        path: "/dashboard/ActiveRider",
+        element: <AdminRout><ActiveRider /></AdminRout>
+      },
       
+      {
+        path: "/dashboard/makeadmin",
+        element: <AdminRout><MakeAdmin /></AdminRout>
+      }
     ]
   }
+  
 ]);
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <div className='urbanist-uniquifier'>
-        <RouterProvider router={router} />
-        <Toaster position="top-right" reverseOrder={false} />
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <div className='urbanist-uniquifier'>
+          <RouterProvider router={router} />
+          <Toaster position="top-right" reverseOrder={false} />
+        </div>
+      </QueryClientProvider >
     </AuthProvider>
     
   </StrictMode>,

@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.4.0",
     "@tailwindcss/vite": "^4.1.10",
+    "@tanstack/react-query": "^5.81.2",
     "axios": "^1.10.0",
     "firebase": "^11.9.1",
     "leaflet": "^1.9.4",
@@ -27,6 +30,7 @@
     "react-slick": "^0.30.3",
     "react-tabs": "^6.1.0",
     "slick-carousel": "^1.8.1",
+    "sweetalert2": "^11.22.0",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
@@ -34,6 +38,7 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react-swc": "^3.9.0",
+    "daisyui": "^5.0.43",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
