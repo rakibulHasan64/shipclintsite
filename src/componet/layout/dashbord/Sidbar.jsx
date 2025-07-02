@@ -2,7 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import useUserRole from "../../hooks/useUserRole";
 
 // React Icons
-import { FaMoneyBillAlt, FaHistory, FaMotorcycle, FaUserCheck, FaUserClock, FaUserShield, FaUserPlus, FaUser, FaTasks } from "react-icons/fa";
+import { FaMoneyBillAlt, FaHistory, FaMotorcycle, FaUserCheck, FaUserClock, FaUserShield, FaUserPlus, FaUser, FaTasks, FaWallet } from "react-icons/fa";
 
 function Sidebar() {
    const { role, roleLoading } = useUserRole();
@@ -16,6 +16,16 @@ function Sidebar() {
             <h2 className="text-3xl font-semibold mb-6">Dashboard</h2>
          </Link>
          <ul className="space-y-5 text-xl">
+            <li>
+               <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                     isActive ? "text-red-500 hover:underline flex items-center gap-2" : "hover:underline flex items-center gap-2"
+                  }
+               >
+                  <FaMoneyBillAlt />Home
+               </NavLink>
+            </li>
             <li>
                <NavLink
                   to="/dashboard/payment"
@@ -51,6 +61,18 @@ function Sidebar() {
 
             <li>
                <NavLink
+                  to="/dashboard/Taking"
+                  className={({ isActive }) =>
+                     isActive ? "text-red-500 hover:underline flex items-center gap-2" : "hover:underline flex items-center gap-2"
+                  }
+               >
+                  <FaUser /> Taking
+               </NavLink>
+            </li>
+
+
+            <li>
+               <NavLink
                   to="/dashboard/profile"
                   className={({ isActive }) =>
                      isActive ? "text-red-500 hover:underline flex items-center gap-2" : "hover:underline flex items-center gap-2"
@@ -75,6 +97,18 @@ function Sidebar() {
                         <FaTasks /> Pending Deliveties
                      </NavLink>
                   </li>
+
+
+                  <li>
+                     <NavLink
+                        to="/dashboard/erning"
+                        className={({ isActive }) =>
+                           isActive ? "text-red-500 hover:underline flex items-center gap-2" : "hover:underline flex items-center gap-2"
+                        }
+                     >
+                        <FaWallet /> My Earnings              </NavLink>
+                  </li>
+
 
 
                   <li>

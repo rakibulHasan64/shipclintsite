@@ -129,7 +129,7 @@ function Dashboard() {
             {/* Main Content */}
             <div className="flex-1 bg-gray-100 p-6">
                <div className="">
-                  <DasBordStactik />
+               
                </div>
                <Outlet />
             </div>

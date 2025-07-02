@@ -4,18 +4,18 @@ import React from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Swal from 'sweetalert2';
-// import useTrackingLogger from '../../../hooks/useTrackingLogger';
+
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import useAuth from '../../../hooks/useAuth';
+import useTeackingLoogger from '../../../hooks/useTeackingLoogger';
 
 const PandingDelevery = () => {
    const axiosSecure = useAxiosSecure();
    const queryClient = useQueryClient();
-   // const { logTracking } = useTrackingLogger();
+   const { logTracKingeUpdatred } = useTeackingLoogger();
    const { user } = useAuth();
 
    
-
    // Load parcels assigned to the current rider
    const { data: parcels = [], isLoading } = useQuery({
       queryKey: ["riderParcels"],
@@ -59,16 +59,16 @@ const PandingDelevery = () => {
                   Swal.fire("Updated!", "Parcel status updated.", "success");
 
                   // log tracking
-                  // let trackDetails = `Picked up by ${user.displayName}`
-                  // if (newStatus === 'delivered') {
-                  //    trackDetails = `Delivered by ${user.displayName}`
-                  // }
-                  // await logTracking({
-                  //    tracking_id: parcel.tracking_id,
-                  //    status: newStatus,
-                  //    details: trackDetails,
-                  //    updated_by: user.email,
-                  // });
+                  let trackDetails = `Picked up by ${user.displayName}`
+                  if (newStatus === 'delivered') {
+                     trackDetails = `Delivered by ${user.displayName}`
+                  }
+                  await logTracKingeUpdatred({
+                     tracking_id: parcel.tracking_id,
+                     status: newStatus,
+                     details: trackDetails,
+                     updated_by: user.email,
+                  });
 
                })
                .catch(() => {

@@ -1,8 +1,10 @@
 import useAuth from "../../../hooks/useAuth";
 import { FaUserCircle } from "react-icons/fa";
+import useUserRole from "../../../hooks/useUserRole";
 
 function Profile() {
    const { user } = useAuth();
+   const { role} = useUserRole();
 
    return (
       <div className="p-6 max-w-xl mx-auto">
@@ -19,6 +21,8 @@ function Profile() {
             ) : (
                <FaUserCircle className="text-gray-400 text-[96px] mx-auto mb-4" />
             )}
+
+            <h3 className="text-2xl font-semibold mb-1">{role || "Anonymous User"}</h3>
 
             {/* User name */}
             <h3 className="text-2xl font-semibold mb-1">{user?.displayName || "Anonymous User"}</h3>

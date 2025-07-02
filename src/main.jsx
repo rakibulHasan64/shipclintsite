@@ -36,6 +36,9 @@ import Profile from './componet/layout/dashbord/Profile/Profile.jsx';
 import RiderRoute from './route/RiderRoute.jsx';
 import PandingDelevery from './componet/layout/dashbord/pandinedeleveiry/PandingDelevery.jsx';
 import CompletedDelivery from './componet/layout/dashbord/completDelevery/CompletedDelivery.jsx';
+import MyErning from './componet/layout/dashbord/myrnige/MyErning.jsx';
+import TakingeParcel from './componet/layout/dashbord/TakingeParcel.jsx';
+import DasbordHoms from './componet/layout/dashbord/DasbordHoms.jsx';
 
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -100,6 +103,12 @@ const router = createBrowserRouter([
     children: [
     
       {
+        index:true,
+        element: <DasbordHoms />
+
+      },
+    
+      {
         path: "/dashboard/payment",
         index: true,
         element: <Pamants />
@@ -137,6 +146,21 @@ const router = createBrowserRouter([
         loader: () => fetch("/warehouses.json")
       },
       // riders routes
+      
+
+      {
+
+        path: "/dashboard/erning",
+        element: <MyErning />
+
+      },
+
+      {
+
+        path: "/dashboard/Taking",
+        element: <TakingeParcel />
+
+      },
 
       {
 

@@ -38,7 +38,7 @@ function MyPaymentHistory() {
                   </tr>
                </thead>
                <tbody>
-                  {payments.map((payment, index) => (
+                  {payments?.map((payment, index) => (
                      <tr
                         key={payment._id}
                         className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}

@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import useTeackingLoogger from "../hooks/useTeackingLoogger";
 
 function PmantFrom() {
    const { user } = useAuth();
@@ -14,7 +15,7 @@ function PmantFrom() {
    const elements = useElements();
    const { id: parcelid } = useParams();
    const navigate = useNavigate();
-
+   const {logTracKingeUpdatred} = useTeackingLoogger();
    const axiosSecure = useAxiosSecure();
 
 
@@ -116,6 +117,12 @@ function PmantFrom() {
                   html: `<strong>Transaction ID:</strong> <code>${transactionId}</code>`,
                   confirmButtonText: 'Go to My Parcels',
                });
+               await logTracKingeUpdatred({
+                  tracking_id: parcelInfo.tracking_id,
+                  status: "payment_done",
+                  details: `Paid by ${user?.displayName}`,
+                  updated_by: user?.email,
+               })
 
                navigate('/dashboard/MyPmantHistory');
 
