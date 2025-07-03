@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BsFillCartPlusFill, BsFillHouseDoorFill } from "react-icons/bs";
-import { FaDollarSign, FaUserAlt } from "react-icons/fa";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
-import AdminCaed from "./AdminCaed";
+import {
+   BsFillCartPlusFill,
+   BsFillHouseDoorFill,
+   BsTruck,
+   BsCheckCircle,
+} from "react-icons/bs";
+import { FaDollarSign } from "react-icons/fa";
+
 import {
    AreaChart,
    Area,
@@ -14,92 +18,124 @@ import {
    LabelList,
 } from "recharts";
 
-const COLORS = {
-   delivered: "#3b82f6",
-   not_collected: "#10b981",
-   rider_assigned: "#f59e0b",
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import AdminCaed from "./AdminCaed";
+
+const STATUS_CONFIG = {
+   delivered: {
+      color: "#3b82f6",
+      title: "Delivered",
+      icon: <BsFillHouseDoorFill className="w-6 h-6 text-white" />,
+      gradient: "from-blue-600 to-blue-400",
+   },
+   not_collected: {
+      color: "#10b981",
+      title: "Not Collected",
+      icon: <BsFillCartPlusFill className="w-6 h-6 text-white" />,
+      gradient: "from-green-600 to-green-400",
+   },
+   rider_assigned: {
+      color: "#f59e0b",
+      title: "Rider Assigned",
+      icon: <BsTruck className="w-6 h-6 text-white" />,
+      gradient: "from-yellow-600 to-yellow-400",
+   },
+   payment_done: {
+      color: "#34d399",
+      title: "Payment Done",
+      icon: <FaDollarSign className="w-6 h-6 text-white" />,
+      gradient: "from-green-500 to-green-300",
+   },
+   parcel_created: {
+      color: "#fbbf24",
+      title: "Parcel Created",
+      icon: <BsCheckCircle className="w-6 h-6 text-white" />,
+      gradient: "from-yellow-500 to-yellow-300",
+   },
+   in_transit: {
+      color: "#60a5fa",
+      title: "In Transit",
+      icon: <BsTruck className="w-6 h-6 text-white" />,
+      gradient: "from-blue-500 to-blue-300",
+   },
 };
 
-function AdminDasbord() {
+function AdminDashboard() {
    const axiosSecure = useAxiosSecure();
-   const [statusData, setStatusData] = useState([]);
+
+   const [parcelStatusData, setParcelStatusData] = useState([]);
+   const [takingeStatusData, setTakingeStatusData] = useState([]);
+
+   const [combinedChartData, setCombinedChartData] = useState([]);
 
    useEffect(() => {
-      const fetchData = async () => {
+      const fetchParcelStatus = async () => {
          try {
             const res = await axiosSecure.get("/parcels/delivery/status-count");
-            setStatusData(res.data);
+            setParcelStatusData(res.data);
          } catch (error) {
-            console.error("Error fetching status data:", error);
+            console.error("Error fetching parcel status data:", error);
          }
       };
-      fetchData();
+
+      const fetchTakingeStatus = async () => {
+         try {
+            const res = await axiosSecure.get("/takinge/status");
+            setTakingeStatusData(res.data);
+         } catch (error) {
+            console.error("Error fetching takinge status data:", error);
+         }
+      };
+
+      fetchParcelStatus();
+      fetchTakingeStatus();
    }, [axiosSecure]);
 
-   const getCount = (statusName) => {
-      const found = statusData.find((item) => item._id === statusName);
-      return found ? found.count : 0;
+   const getCount = (status, dataArray) => {
+      const item = dataArray.find((d) => d.status === status);
+      return item ? item.count : 0;
    };
 
-   // Transform data for AreaChart
-   const chartData = [
-      {
-         name: "Delivered",
-         count: getCount("delivered"),
-         color: COLORS.delivered,
-      },
-      {
-         name: "Not Collected",
-         count: getCount("not_collected"),
-         color: COLORS.not_collected,
-      },
-      {
-         name: "Rider Assigned",
-         count: getCount("rider_assigned"),
-         color: COLORS.rider_assigned,
-      },
-   ];
+   // parcel আর takinge data মিলিয়ে combined ডেটা তৈরি
+   useEffect(() => {
+      const combinedData = Object.keys(STATUS_CONFIG).map((key) => ({
+         name: STATUS_CONFIG[key].title,
+         count:
+            getCount(key, parcelStatusData) + getCount(key, takingeStatusData),
+         color: STATUS_CONFIG[key].color,
+      }));
+
+      setCombinedChartData(combinedData);
+   }, [parcelStatusData, takingeStatusData]);
 
    return (
-      <div className="">
-         {/* Stat Cards */}
-         <div className="p-6">
-            <div className="grid gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-               <AdminCaed
-                  icon={<FaDollarSign className="w-6 h-6 text-white" />}
-                  title="Delivered"
-                  count={getCount("delivered")}
-                  color="from-green-600 to-green-400"
-               />
-               <AdminCaed
-                  icon={<BsFillCartPlusFill className="w-6 h-6 text-white" />}
-                  title="Not Collected"
-                  count={getCount("not_collected")}
-                  color="from-red-600 to-red-400"
-               />
-               <AdminCaed
-                  icon={<BsFillHouseDoorFill className="w-6 h-6 text-white" />}
-                  title="Rider Assigned"
-                  count={getCount("rider_assigned")}
-                  color="from-blue-600 to-blue-400"
-               />
-               <AdminCaed
-                  icon={<FaUserAlt className="w-6 h-6 text-white" />}
-                  title="Total Users"
-                  count={4}
-                  color="from-yellow-600 to-yellow-400"
-               />
-            </div>
-         </div>
+      <div className="p-6 space-y-16">
+         <section>
+            <h2 className="text-2xl font-bold mb-6">Combined Parcel & Takinge Status</h2>
 
-         {/* Area Chart */}
-         <div className="p-6 mt-10">
-            <div className="bg-white rounded-xl shadow-lg p-6 w-full max-w-6xl mx-auto">
-               <h2 className="text-xl font-bold text-gray-800 mb-6 text-center border-b pb-2">
-                  Delivery Status Overview
-               </h2>
-               <ResponsiveContainer width="100%" height={360}>
-                  <AreaChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+            <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 mb-10">
+               {Object.keys(STATUS_CONFIG).map((key) => (
+                  <AdminCaed
+                     key={key}
+                     icon={STATUS_CONFIG[key].icon}
+                     title={STATUS_CONFIG[key].title}
+                     count={
+                        getCount(key, parcelStatusData) + getCount(key, takingeStatusData)
+                     }
+                     color={STATUS_CONFIG[key].gradient}
+                  />
+               ))}
+            </div>
+
+            <div className="bg-white rounded-xl shadow-lg p-6 max-w-6xl mx-auto">
+               <h3 className="text-xl font-semibold mb-4 text-center border-b pb-2">
+                  Combined Parcel Status Overview
+               </h3>
+               <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart
+                     data={combinedChartData}
+                     margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+                  >
                      <CartesianGrid strokeDasharray="4 4" stroke="#e5e7eb" />
                      <XAxis dataKey="name" tick={{ fill: "#6b7280", fontSize: 12 }} />
                      <YAxis allowDecimals={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
@@ -119,14 +155,9 @@ function AdminDasbord() {
                   </AreaChart>
                </ResponsiveContainer>
             </div>
-         </div>
+         </section>
       </div>
    );
 }
 
-export default AdminDasbord;
-
-
-
-
-// export default AdminDasbord;
+export default AdminDashboard;

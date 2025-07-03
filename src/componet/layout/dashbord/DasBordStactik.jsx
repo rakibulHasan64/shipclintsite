@@ -3,7 +3,7 @@ import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs';
 import { FaDollarSign, FaUserAlt } from 'react-icons/fa';
 
 
-function DasBordStactik() {
+function DasBordStactik({ users, likeCounts }) {
 
 
 
@@ -56,10 +56,10 @@ function DasBordStactik() {
                      </div>
                      <div className='p-4 text-right'>
                         <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
-                           Total Plants
+                           Total Rating
                         </p>
                         <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-                           120
+                           {likeCounts.length}
                         </h4>
                      </div>
                   </div>
@@ -75,7 +75,7 @@ function DasBordStactik() {
                            Total User
                         </p>
                         <h4 className='block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900'>
-                           4
+                           {users.length}
                         </h4>
                      </div>
                   </div>
