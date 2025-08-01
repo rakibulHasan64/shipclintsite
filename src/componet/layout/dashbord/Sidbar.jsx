@@ -9,10 +9,13 @@ function Sidebar() {
    const { role, roleLoading } = useUserRole();
 
    if (roleLoading) {
-       return <p>lofgfg...</p>
-      
-    }
-   
+      return (
+         <div className="flex justify-center items-center h-screen">
+            <div className="w-12 h-12 border-4 border-dashed rounded-full animate-spin border-red-500"></div>
+         </div>
+      );
+   }
+
 
    return (
       <div className="p-4">
@@ -30,27 +33,38 @@ function Sidebar() {
                   <FaMoneyBillAlt />Home
                </NavLink>
             </li>
-            <li>
-               <NavLink
-                  to="/dashboard/payment"
-                  className={({ isActive }) =>
-                     isActive ? "text-red-500 hover:underline flex items-center gap-2" : "hover:underline flex items-center gap-2"
-                  }
-               >
-                  <FaMoneyBillAlt /> Payment
-               </NavLink>
-            </li>
 
-            <li>
-               <NavLink
-                  to="/dashboard/MyPmantHistory"
-                  className={({ isActive }) =>
-                     isActive ? "text-red-500 hover:underline flex items-center gap-2" : "hover:underline flex items-center gap-2"
-                  }
-               >
-                  <FaHistory /> My Payment History
-               </NavLink>
-            </li>
+
+            {!roleLoading && role === "user" && (
+               <>
+                  <li>
+                     <NavLink
+                        to="/dashboard/payment"
+                        className={({ isActive }) =>
+                           isActive
+                              ? "text-red-500 hover:underline flex items-center gap-2"
+                              : "hover:underline flex items-center gap-2"
+                        }
+                     >
+                        <FaMoneyBillAlt /> Payment
+                     </NavLink>
+                  </li>
+
+                  <li>
+                     <NavLink
+                        to="/dashboard/myPaymentHistory"
+                        className={({ isActive }) =>
+                           isActive
+                              ? "text-red-500 hover:underline flex items-center gap-2"
+                              : "hover:underline flex items-center gap-2"
+                        }
+                     >
+                        <FaHistory /> My Payment History
+                     </NavLink>
+                  </li>
+               </>
+            )}
+
 
             <li>
                <NavLink
