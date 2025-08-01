@@ -1,13 +1,17 @@
 import { Link, NavLink } from "react-router-dom";
-import useUserRole from "../../hooks/useUserRole";
+
 
 // React Icons
 import { FaMoneyBillAlt, FaHistory, FaMotorcycle, FaUserCheck, FaUserClock, FaUserShield, FaUserPlus, FaUser, FaTasks, FaWallet } from "react-icons/fa";
+import useUserRole from "../../hooks/useUserRole";
 
 function Sidebar() {
    const { role, roleLoading } = useUserRole();
 
-   console.log(role);
+   if (roleLoading) {
+       return <p>lofgfg...</p>
+      
+    }
    
 
    return (

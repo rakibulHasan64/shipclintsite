@@ -143,7 +143,7 @@ const AsinRider = () => {
                            <table className="table table-sm">
                               <thead>
                                  <tr>
-                                    <th>Name</th>
+                                    <th>Email</th>
                                     <th>Phone</th>
                                     <th>Bike Info</th>
                                     <th>Action</th>
@@ -152,7 +152,7 @@ const AsinRider = () => {
                               <tbody>
                                  {riders.map((rider) => (
                                     <tr key={rider._id}>
-                                       <td>{rider.name}</td>
+                                       <td>{rider.email}</td>
                                        <td>{rider.phone}</td>
                                        <td>
                                           {rider.bike_brand} - {rider.bike_registration}

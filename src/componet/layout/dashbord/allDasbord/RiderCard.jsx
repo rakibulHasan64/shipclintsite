@@ -1,40 +1,63 @@
+// RiderCard.js
 import React from 'react';
-import { FaUserAlt } from 'react-icons/fa';
+import { FaBox, FaTruck, FaCheckCircle, FaTimesCircle, FaClock } from 'react-icons/fa';
 
 const RiderCard = ({ status, count }) => {
-   const statusColorMap = {
-      active: {
-         from: 'from-green-600',
+   const statusConfig = {
+      pending: {
+         icon: <FaBox className="w-6 h-6 text-white" />,
+         from: 'from-yellow-500',
+         to: 'to-yellow-400',
+         shadow: 'shadow-yellow-500/40',
+         label: 'Pending Deliveries'
+      },
+      delivered: {
+         icon: <FaCheckCircle className="w-6 h-6 text-white" />,
+         from: 'from-green-500',
          to: 'to-green-400',
          shadow: 'shadow-green-500/40',
+         label: 'Delivered'
       },
-      deactivated: {
-         from: 'from-red-600',
+      cancelled: {
+         icon: <FaTimesCircle className="w-6 h-6 text-white" />,
+         from: 'from-red-500',
          to: 'to-red-400',
          shadow: 'shadow-red-500/40',
+         label: 'Cancelled'
+      },
+      in_progress: {
+         icon: <FaTruck className="w-6 h-6 text-white" />,
+         from: 'from-blue-500',
+         to: 'to-blue-400',
+         shadow: 'shadow-blue-500/40',
+         label: 'In Progress'
       },
       default: {
-         from: 'from-pink-600',
-         to: 'to-pink-400',
-         shadow: 'shadow-pink-500/40',
-      },
+         icon: <FaClock className="w-6 h-6 text-white" />,
+         from: 'from-gray-500',
+         to: 'to-gray-400',
+         shadow: 'shadow-gray-500/40',
+         label: 'Other'
+      }
    };
 
-   const { from, to, shadow } = statusColorMap[status] || statusColorMap.default;
+   const { icon, from, to, shadow, label } = statusConfig[status] || statusConfig.default;
 
    return (
-      <div className='relative flex flex-col mt-7 justify-center py-5 bg-clip-border rounded-xl bg-white text-gray-700 shadow-md'>
+      <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md hover:shadow-lg transition-shadow duration-300">
          <div
             className={`bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr shadow-lg absolute -mt-4 
-          grid h-16 w-16 place-items-center ${from} ${to} text-white ${shadow}`}
+            grid h-16 w-16 place-items-center ${from} ${to} text-white ${shadow}`}
          >
-            <FaUserAlt className='w-6 h-6 text-white' />
+            {icon}
          </div>
-         <div className='p-4 text-right'>
-            <p className='text-sm font-normal text-blue-gray-600 capitalize'>
-               {status} Riders
+         <div className="p-4 pt-8 text-right">
+            <p className="block text-sm font-medium text-gray-600 capitalize">
+               {label}
             </p>
-            <h4 className='text-2xl font-semibold text-blue-gray-900'>{count}</h4>
+            <h4 className="block text-2xl font-bold leading-snug tracking-normal text-blue-gray-900">
+               {count}
+            </h4>
          </div>
       </div>
    );
